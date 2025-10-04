@@ -98,7 +98,7 @@ export const Barbers: React.FC = () => {
         <div className="mt-16 grid md:grid-cols-3 gap-6">
           <div className="text-center p-6 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl">
             <img
-              src="https://images.unsplash.com/photo-1503951914724-452d51e7a8b7?w=400&h=300&fit=crop"
+              src="/excutive.jpg"
               alt="Expertise"
               className="w-full h-48 object-cover rounded-lg mb-4"
             />

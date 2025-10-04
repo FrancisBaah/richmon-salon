@@ -1,185 +1,33 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
-interface Service {
-  name: string;
-  price: number;
-  duration: string;
-  desc: string;
-}
-interface ServiceCategory {
-  id: number;
-  category: string;
-  items: Service[];
-}
-interface Barber {
-  id: number;
-  name: string;
-  title: string;
-  specialty: string;
-  experience: string;
-  rating: number;
-  reviews: number;
-  image: string;
-  bio: string;
-}
-interface BookingFormInputs {
-  name: string;
-  phone: string;
-  email: string;
-}
-interface ContactFormInputs {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
-interface FormErrors {
-  name?: string;
-  email?: string;
-  phone?: string;
-  message?: string;
-}
-const barbers: Barber[] = [
-  {
-    id: 1,
-    name: "Richmond",
-    title: "Master Barber & Owner",
-    specialty: "All Styles & Techniques",
-    experience: "12 years",
-    rating: 4.9,
-    reviews: 1050,
-    image:
-      "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&h=400&fit=crop",
-    bio: "Expert barber based in Silicon Oasis, Dubai. Specializing in classic cuts, modern fades, beard grooming, and premium styling services. Committed to delivering excellence in every cut.",
-  },
-];
-const services: ServiceCategory[] = [
-  {
-    id: 1,
-    category: "Classic Cuts",
-    items: [
-      {
-        name: "Signature Haircut",
-        price: 80,
-        duration: "45 min",
-        desc: "Precision cut tailored to your style",
-      },
-      {
-        name: "Buzz Cut",
-        price: 50,
-        duration: "20 min",
-        desc: "Clean and sharp military-style cut",
-      },
-      {
-        name: "Fade Mastery",
-        price: 100,
-        duration: "60 min",
-        desc: "Expert fade with sharp line work",
-      },
-    ],
-  },
-  {
-    id: 2,
-    category: "Premium Services",
-    items: [
-      {
-        name: "Royal Shave",
-        price: 70,
-        duration: "30 min",
-        desc: "Hot towel treatment with straight razor",
-      },
-      {
-        name: "Beard Sculpting",
-        price: 60,
-        duration: "30 min",
-        desc: "Precision beard trim and styling",
-      },
-      {
-        name: "Executive Package",
-        price: 180,
-        duration: "90 min",
-        desc: "Complete grooming experience",
-      },
-    ],
-  },
-  {
-    id: 3,
-    category: "Styling & Treatments",
-    items: [
-      {
-        name: "Hair Styling",
-        price: 40,
-        duration: "20 min",
-        desc: "Professional styling for any occasion",
-      },
-      {
-        name: "Scalp Treatment",
-        price: 90,
-        duration: "45 min",
-        desc: "Rejuvenating scalp massage and treatment",
-      },
-      {
-        name: "Color Service",
-        price: 150,
-        duration: "90 min",
-        desc: "Modern hair coloring techniques",
-      },
-    ],
-  },
-];
-const timeSlots: string[] = [
-  "09:00",
-  "10:00",
-  "11:00",
-  "12:00",
-  "14:00",
-  "15:00",
-  "16:00",
-  "17:00",
-  "18:00",
-  "19:00",
-];
-const validateForm = (
-  data: ContactFormInputs | BookingFormInputs,
-  isContactForm: boolean = false
-): FormErrors => {
-  const errors: FormErrors = {};
-  if (!data.name.trim()) {
-    errors.name = "Name is required";
-  } else if (data.name.length < 2) {
-    errors.name = "Name must be at least 2 characters";
-  }
+import { barbers, services, timeSlots, validateForm } from "./types";
+import type { Service, Barber, BookingFormInputs, FormErrors } from "./types";
 
-  if (!data.email.trim()) {
-    errors.email = "Email is required";
-  } else if (
-    !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.email)
-  ) {
-    errors.email = "Invalid email address";
-  }
+interface BookingProps {
+  selectedService: Service | null;
+  setSelectedService: React.Dispatch<React.SetStateAction<Service | null>>;
+  bookingStep: number;
+  setBookingStep: React.Dispatch<React.SetStateAction<number>>;
+  selectedDate: string;
+  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+  selectedTime: string;
+  setSelectedTime: React.Dispatch<React.SetStateAction<string>>;
+  selectedBarber: Barber | null;
+  setSelectedBarber: React.Dispatch<React.SetStateAction<Barber | null>>;
+}
 
-  if (!data.phone.trim()) {
-    errors.phone = "Phone number is required";
-  } else if (!/^\+?[1-9]\d{1,14}$/.test(data.phone)) {
-    errors.phone = "Invalid phone number";
-  }
-
-  if (isContactForm && "message" in data) {
-    if (!data.message.trim()) {
-      errors.message = "Message is required";
-    } else if (data.message.length < 10) {
-      errors.message = "Message must be at least 10 characters";
-    }
-  }
-
-  return errors;
-};
-export const Booking: React.FC = () => {
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [bookingStep, setBookingStep] = useState<number>(1);
-  const [selectedDate, setSelectedDate] = useState<string>("");
-  const [selectedTime, setSelectedTime] = useState<string>("");
-  const [selectedBarber, setSelectedBarber] = useState<Barber | null>(null);
+export const Booking: React.FC<BookingProps> = ({
+  selectedService,
+  setSelectedService,
+  bookingStep,
+  setBookingStep,
+  selectedDate,
+  setSelectedDate,
+  selectedTime,
+  setSelectedTime,
+  selectedBarber,
+  setSelectedBarber,
+}) => {
   const [formData, setFormData] = useState<BookingFormInputs>({
     name: "",
     phone: "",
@@ -192,7 +40,6 @@ export const Booking: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for the field being edited
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
@@ -210,14 +57,12 @@ export const Booking: React.FC = () => {
       date: selectedDate,
       time: selectedTime,
     });
-    // Reset form and booking state
     setFormData({ name: "", phone: "", email: "" });
     setSelectedService(null);
     setSelectedBarber(null);
     setSelectedDate("");
     setSelectedTime("");
     setBookingStep(1);
-    // Add API call here for production
   };
 
   return (

@@ -1,57 +1,8 @@
 import { Clock, MapPin, Phone, Mail } from "lucide-react";
 import { useState } from "react";
-interface ContactFormInputs {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
-interface FormErrors {
-  name?: string;
-  email?: string;
-  phone?: string;
-  message?: string;
-}
-interface BookingFormInputs {
-  name: string;
-  phone: string;
-  email: string;
-}
-const validateForm = (
-  data: ContactFormInputs | BookingFormInputs,
-  isContactForm: boolean = false
-): FormErrors => {
-  const errors: FormErrors = {};
-  if (!data.name.trim()) {
-    errors.name = "Name is required";
-  } else if (data.name.length < 2) {
-    errors.name = "Name must be at least 2 characters";
-  }
+import { validateForm } from "./types";
+import type { ContactFormInputs, FormErrors } from "./types";
 
-  if (!data.email.trim()) {
-    errors.email = "Email is required";
-  } else if (
-    !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.email)
-  ) {
-    errors.email = "Invalid email address";
-  }
-
-  if (!data.phone.trim()) {
-    errors.phone = "Phone number is required";
-  } else if (!/^\+?[1-9]\d{1,14}$/.test(data.phone)) {
-    errors.phone = "Invalid phone number";
-  }
-
-  if (isContactForm && "message" in data) {
-    if (!data.message.trim()) {
-      errors.message = "Message is required";
-    } else if (data.message.length < 10) {
-      errors.message = "Message must be at least 10 characters";
-    }
-  }
-
-  return errors;
-};
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState<ContactFormInputs>({
     name: "",
@@ -66,7 +17,6 @@ export const Contact: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for the field being edited
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
@@ -80,7 +30,6 @@ export const Contact: React.FC = () => {
     console.log("Contact Form Data:", formData);
     setFormData({ name: "", email: "", phone: "", message: "" });
     setErrors({});
-    // Add API call here for production
   };
 
   return (
