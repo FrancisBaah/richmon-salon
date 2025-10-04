@@ -1,7 +1,7 @@
 import { Clock, MapPin, Phone, Mail } from "lucide-react";
 import { useState } from "react";
-import { validateForm } from "./types";
-import type { ContactFormInputs, FormErrors } from "./types";
+import { validateForm } from "../assets/types";
+import type { ContactFormInputs, FormErrors } from "../assets/types";
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState<ContactFormInputs>({

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { NavBar } from "./NavBar";
-import { Hero } from "./Hero";
-import { Services } from "./Services";
-import { Barbers } from "./Barbers";
-import { Contact } from "./Contact";
-import { Footer } from "./Footer";
-import type { Barber, Service } from "./types";
-import { Reviews } from "./Review";
-import { Booking } from "./Booking";
+import { NavBar } from "./component/NavBar";
+import { Hero } from "./component/Hero";
+import { Services } from "./component/Services";
+import { Barbers } from "./component/Barbers";
+import { Contact } from "./component/Contact";
+import { Footer } from "./component/Footer";
+import type { Barber, Service } from "./assets/types";
+import { Reviews } from "./component/Review";
+import { Booking } from "./component/Booking";
 
 function App() {
   const [selectedService, setSelectedService] = useState<Service | null>(null);

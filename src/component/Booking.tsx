@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
-import { barbers, services, timeSlots, validateForm } from "./types";
-import type { Service, Barber, BookingFormInputs, FormErrors } from "./types";
+import { barbers, services, timeSlots, validateForm } from "../assets/types";
+import type {
+  Service,
+  Barber,
+  BookingFormInputs,
+  FormErrors,
+} from "../assets/types";
 
 interface BookingProps {
   selectedService: Service | null;
