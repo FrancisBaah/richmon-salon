@@ -19,8 +19,8 @@ function App() {
 
   return (
     <Router>
-      <div className="bg-black min-h-screen">
-        <NavBar />
+      <div className="bg-black min-h-screen text-white text-center">
+        {/* <NavBar />
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route
@@ -54,7 +54,8 @@ function App() {
           />
           <Route path="/contact" element={<Contact />} />
         </Routes>
-        <Footer />
+        <Footer /> */}
+        RICHOCO
       </div>
     </Router>
   );
